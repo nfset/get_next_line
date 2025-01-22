@@ -1,4 +1,4 @@
-
+#define BUFFER_SIZE 42
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -201,7 +201,7 @@ int	main(void)
 	int	fd;
 	char	*line;
 
-	fd = open("text.txt", O_RDONLY);
+	fd = open("kiedy.txt", O_RDONLY);
 
 	if (fd < 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apieniak <apieniak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apieniak <apieniak@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:46:58 by apieniak          #+#    #+#             */
-/*   Updated: 2025/01/20 16:06:14 by apieniak         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:41:32 by apieniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <stdint.h>
+
+void	*my_calloc(int elements, int size)
+{
+	void	*arr;
+	char	*swap;
+	int		i;
+
+	i = 0;
+	arr = (void *)malloc(elements * size);
+	if (!arr)
+		return (NULL);
+	swap = (char *)arr;
+	while (i < elements * size)
+	{
+		swap[i] = 0;
+		i++;
+	}
+	return (arr);
+}
 
 int	search_for_char(char *str, char sign)
 {
@@ -48,7 +68,7 @@ char	*ft_strjoin(char *src, char *dest)
 
 	if (!src || !dest)
 		return (NULL);
-	new = malloc(ft_strlen(src) + ft_strlen(dest) + 1);
+	new = my_calloc(ft_strlen(src) + ft_strlen(dest) + 1, 1);
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -76,20 +96,16 @@ char	*next_line(char *buffer)
 	char	*line;
 
 	i = 0;
-	// find len of first line
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	// if eol == \0 return NULL
 	if (!buffer[i])
 	{
 		free(buffer);
 		return (NULL);
 	}
-	// len of file - len of firstline + 1
-	line = malloc((ft_strlen(buffer) - i + 1));
+	line = my_calloc(ft_strlen(buffer) - i + 1, 1);
 	i++;
 	j = 0;
-	// line == buffer
 	while (buffer[i])
 		line[j++] = buffer[i++];
 	free(buffer);
@@ -104,9 +120,9 @@ char	*get_line(char *buff)
 	i = 0;
 	if (!buff[i])
 		return (NULL);
-	while (buff[i] && buff[i] != '\n')
+	while (buff[i] && buff[i] != '\n')	
 		i++;
-	line = malloc(i + 2);
+	line = my_calloc(i + 2, 1);
 	i = 0;
 	while (buff[i] && buff[i] != '\n')
 	{
@@ -126,12 +142,10 @@ char	*textf_read(char *buffer, int fd)
 	buff_count = 1;
 	if (!buffer)
 		buffer = malloc(1);
-	buff_supp = malloc(BUFFER_SIZE + 1);
-	if (!buff_supp)
-		return (NULL);
+	buff_supp = my_calloc(BUFFER_SIZE + 1, 1);
 	while (buff_count > 0)
 	{
-		buff_count += read(fd, buff_supp, BUFFER_SIZE);
+		buff_count = read(fd, buff_supp, BUFFER_SIZE);
 		if (buff_count == -1)
 		{
 			free(buff_supp);
@@ -164,12 +178,11 @@ char	*get_next_line(int fd)
 
 int	main(void)
 {
-	//int		d;
+	int	fd;
 	char	*line;
-	int fd;
 
-	fd = open("text.txt", O_RDONLY);
-	//int i = fd;
+	fd = open("kiedy.txt", O_RDONLY);
+
 	if (fd < 0)
 	{
 		printf("Error");
