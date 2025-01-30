@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apieniak <apieniak@student.42warsaw.pl>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 18:46:58 by apieniak          #+#    #+#             */
-/*   Updated: 2025/01/29 16:05:28 by apieniak         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*next_line(char *buffer)
 {
@@ -93,18 +81,42 @@ char	*textf_read(char *buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[FOPEN_MAX];
 	char		*line;
 	
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
-	buffer = textf_read(buffer, fd);
-	if (!buffer)
+	buffer[fd] = textf_read(buffer[fd], fd);
+	if (!buffer[fd])
 	{
-		buffer = NULL;
+        buffer[fd] = NULL;
 		return (NULL);
 	}
-	line = get_line_main(buffer);
-	buffer = next_line(buffer);	
+	line = get_line_main(buffer[fd]);
+	buffer[fd] = next_line(buffer[fd]);	
 	return (line);
+}
+
+int main()
+{
+	/*
+	int fd = open("kiedy.txt", O_RDONLY);
+	int fdb = open("cwl.txt", O_RDONLY);
+	int fdc = open("frajer.txt", O_RDONLY);
+	char *a;
+
+	 while ((a = get_next_line(fd)))
+	{
+		printf("%s", a);
+	}  
+	while ((a = get_next_line(fdb)))
+	{
+		printf("%s", a);
+	}  
+	while ((a = get_next_line(fdc)))
+	{
+		printf("%s", a);
+	}  
+	*/
+	return 0; 
 }
