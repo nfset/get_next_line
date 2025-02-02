@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 
-void    *my_calloc(int elements, int size);
+void	*my_calloc(int elements, int size);
 int		search_for_char(char *str, char sign);
 size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *src, char *dest);

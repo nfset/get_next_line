@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apieniak <apieniak@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/02 14:59:41 by apieniak          #+#    #+#             */
+/*   Updated: 2025/02/02 15:00:38 by apieniak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line_bonus.h"
 
 char	*next_line(char *buffer)
@@ -36,7 +48,7 @@ char	*get_line_main(char *buff)
 	i = 0;
 	if (!buff[i])
 		return (NULL);
-	while (buff[i] && buff[i] != '\n')	
+	while (buff[i] && buff[i] != '\n')
 		i++;
 	line = my_calloc(i + 2, 1);
 	i = 0;
@@ -83,23 +95,23 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer[FOPEN_MAX];
 	char		*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
 	buffer[fd] = textf_read(buffer[fd], fd);
 	if (!buffer[fd])
 	{
-        buffer[fd] = NULL;
+		buffer[fd] = NULL;
 		return (NULL);
 	}
 	line = get_line_main(buffer[fd]);
-	buffer[fd] = next_line(buffer[fd]);	
+	buffer[fd] = next_line(buffer[fd]);
 	return (line);
 }
 
+/*
 int main()
 {
-	/*
 	int fd = open("kiedy.txt", O_RDONLY);
 	int fdb = open("cwl.txt", O_RDONLY);
 	int fdc = open("frajer.txt", O_RDONLY);
@@ -117,6 +129,6 @@ int main()
 	{
 		printf("%s", a);
 	}  
-	*/
 	return 0; 
 }
+*/

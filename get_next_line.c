@@ -6,7 +6,7 @@
 /*   By: apieniak <apieniak@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:46:58 by apieniak          #+#    #+#             */
-/*   Updated: 2025/01/29 16:05:28 by apieniak         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:56:28 by apieniak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_line_main(char *buff)
 	i = 0;
 	if (!buff[i])
 		return (NULL);
-	while (buff[i] && buff[i] != '\n')	
+	while (buff[i] && buff[i] != '\n')
 		i++;
 	line = my_calloc(i + 2, 1);
 	i = 0;
@@ -95,7 +95,7 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	char		*line;
-	
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = textf_read(buffer, fd);
@@ -105,6 +105,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	line = get_line_main(buffer);
-	buffer = next_line(buffer);	
+	buffer = next_line(buffer);
 	return (line);
 }
